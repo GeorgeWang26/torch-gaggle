@@ -174,7 +174,9 @@ class GASupervisor:
                                              ga_args=self.ga_args,
                                              problem_args=self.problem_args, sys_args=self.sys_args,
                                              outdir_args=self.outdir_args, individual_args=self.individual_args)
-        trainer.train(display_train_metrics=self.display_train_metrics, display_test_metrics=self.display_test_metrics)
+        result = trainer.train(display_train_metrics=self.display_train_metrics, display_test_metrics=self.display_test_metrics)
+        
+        return result
 
     def run(self, *args, **kwargs):
         """Run the genetic algorithm described during __init__. When running pre-existing problems, if additional
@@ -191,4 +193,5 @@ class GASupervisor:
         if self.problem_args.problem_name != "custom":
             self._run_default(*args, **kwargs)
         else:
-            self._run_custom(*args, **kwargs)
+            result = self._run_custom(*args, **kwargs)
+            return result

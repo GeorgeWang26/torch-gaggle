@@ -227,9 +227,9 @@ class SimpleGA(GA):
         Returns:
 
         """
-        print(f"Genome size: {self.population_manager.get_gene_count():.3e} params")
+        # print(f"Genome size: {self.population_manager.get_gene_count():.3e} params")
 
-        print_dict_highlighted(vars(self.ga_args))
+        # print_dict_highlighted(vars(self.ga_args))
 
         if callbacks is None:
             callbacks = []
@@ -241,7 +241,7 @@ class SimpleGA(GA):
             metrics = self.get_fitness_metric(train_fitness, save=True, mode="train")
             metrics["generation"] = f"{generation+1}/{self.ga_args.generations}"
             metrics["time_taken"] = time_taken - start_time
-            print_dict_highlighted(metrics)
+            # print_dict_highlighted(metrics)
             # we add the generation and time taken to the saved metrics
             self.saved_metrics["train_metrics"]["generation"].append(generation+1)
             self.saved_metrics["train_metrics"]["time_taken"].append(metrics["time_taken"])
@@ -257,3 +257,10 @@ class SimpleGA(GA):
 
         if display_test_metrics or display_train_metrics:
             self.display_metrics(display_train=display_train_metrics, display_test=display_test_metrics)
+
+        self.population_manager.eval()
+        test_fitness = self.problem.evaluate_population(self.population_manager, use_freshness=False, update_manager=False, train=False)
+        test_metrics = self.get_fitness_metric(test_fitness, save=True, mode="eval")
+        ind = self.population_manager.get_individual(test_metrics["best"][0])
+        coef = ind.gene_pool[0]["param"].detach().cpu()
+        return coef
