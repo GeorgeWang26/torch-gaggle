@@ -31,7 +31,10 @@ class WeightedSelection(Selection):
 
         ids = list(range(manager.population_size))
         for key in ids:
-            fitness[key] /= fitness_sum
+            if fitness_sum == 0:
+                fitness[key] = 1 / len(ids)
+            else:
+                fitness[key] /= fitness_sum
             p.append(fitness[key])
 
         protected_models = manager.get_protected()

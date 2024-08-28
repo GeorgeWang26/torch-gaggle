@@ -61,9 +61,10 @@ class SimpleGA(GA):
                 GAArgs.CONFIG_KEY: vars(self.ga_args),
                 IndividualArgs.CONFIG_KEY: individual.save(),
             }
-            fn = os.path.join(self.outdir_args.create_folder_name(), f"best.pt")
-            torch.save(data, fn)
-            print_highlighted(f"New best: {fitness:.2f}%>{self.best:.2f}%. Saved at '{os.path.abspath(fn)}'")
+            # fn = os.path.join(self.outdir_args.create_folder_name(), f"best.pt")
+            # torch.save(data, fn)
+            # print_highlighted(f"New best: {fitness:.2f}%>{self.best:.2f}%. Saved at '{os.path.abspath(fn)}'")
+            print_highlighted(f"New best: {fitness:.2f}%>{self.best:.2f}%")
             self.best = fitness
 
     @torch.no_grad()
